@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电商智能客服系统 · Agent-commerce | 谢勤光</title>
+<meta name="description" content="基于 LangChain Agent 的电商智能客服平台：智能问答 + 订单查询 + RAG 知识库。FastAPI + Vue3 + PostgreSQL + Redis + Chroma。">
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --border: #30363d;
+    --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --accent2: #bc8cff;
+    --green: #3fb950; --tag-bg: #21262d; --code: #6e7681;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.65;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 48px 24px 72px; }
+
+  .nav-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--muted); text-decoration: none; font-size: 14px; margin-bottom: 28px;
+    border: 1px solid var(--border); border-radius: 8px; padding: 5px 14px;
+    background: var(--card);
+  }
+  .nav-back:hover { color: var(--accent); border-color: var(--accent); }
+
+  header { margin-bottom: 40px; }
+  .proj-label {
+    display: inline-block; color: var(--accent2); font-size: 13px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  h1 { font-size: 34px; font-weight: 700; letter-spacing: .5px; margin-bottom: 12px; }
+  h1 span {
+    background: linear-gradient(120deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .lead { color: var(--muted); font-size: 16px; max-width: 680px; }
+  .actions { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: all .2s;
+  }
+  .btn-primary { background: linear-gradient(120deg, #1f6feb, #8957e5); color: #fff; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(31,111,235,.35); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); background: var(--card); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  h2 {
+    font-size: 20px; font-weight: 600; margin: 44px 0 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2::before { content: ""; width: 4px; height: 20px; border-radius: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2)); }
+
+  .stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack span {
+    background: var(--tag-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px 14px; font-size: 13px;
+  }
+  .stack b { color: var(--accent); font-weight: 600; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; transition: border-color .2s;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .card p { color: var(--muted); font-size: 13.5px; }
+
+  .arch { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 26px 20px; overflow-x: auto; }
+  .arch svg { display: block; margin: 0 auto; min-width: 640px; }
+
+  .sec-list { display: grid; gap: 12px; }
+  .sec-item {
+    display: flex; gap: 14px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; align-items: flex-start;
+  }
+  .sec-icon {
+    flex-shrink: 0; width: 34px; height: 34px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 17px;
+    background: rgba(88,166,255,.12); border: 1px solid rgba(88,166,255,.25);
+  }
+  .sec-item b { font-size: 14px; display: block; margin-bottom: 3px; }
+  .sec-item p { color: var(--muted); font-size: 13.5px; }
+  .sec-item code {
+    background: var(--tag-bg); border-radius: 4px; padding: 1px 6px;
+    font-size: 12px; color: var(--accent); font-family: ui-monospace, Consolas, monospace;
+  }
+
+  pre {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px 20px; overflow-x: auto; font-size: 13px; line-height: 1.8;
+    color: var(--text);
+  }
+  pre .c { color: var(--code); }
+  pre .k { color: var(--accent); }
+  pre .g { color: var(--green); }
+
+  footer {
+    margin-top: 64px; border-top: 1px solid var(--border); padding-top: 24px;
+    text-align: center; color: var(--muted); font-size: 13px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  @media (max-width: 640px) { h1 { font-size: 27px; } .wrap { padding: 32px 16px 56px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="nav-back" href="../index.html">← 返回项目导航</a>
+
+  <header>
+    <span class="proj-label">AI Agent · 全栈项目</span>
+    <h1>电商智能客服系统 <span>Agent-commerce</span></h1>
+    <p class="lead">独立的电商智能客服平台：以 LangChain Agent 为统一 AI 入口，实现智能问答、订单查询与 RAG 知识库检索；前后端分离，Docker 一键起基础设施，含完整鉴权与防枚举安全设计。</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="https://github.com/xie-good/Agent-commerce" target="_blank" rel="noopener">⭐ GitHub 源码</a>
+      <a class="btn btn-ghost" href="https://lx1120.thedev.id/" target="_blank" rel="noopener">🧭 项目导航</a>
+    </div>
+  </header>
+
+  <h2>🛠 技术栈</h2>
+  <div class="stack">
+    <span><b>后端</b> Python 3.11 · FastAPI</span>
+    <span><b>前端</b> Vue3 · TypeScript · Vite · Pinia</span>
+    <span><b>数据库</b> PostgreSQL 15</span>
+    <span><b>缓存</b> Redis 7</span>
+    <span><b>AI</b> LangChain Agent · 通义千问 / DeepSeek</span>
+    <span><b>RAG</b> Chroma 向量检索</span>
+    <span><b>通信</b> WebSocket 实时聊天</span>
+    <span><b>运维</b> Docker Compose · Alembic 迁移</span>
+  </div>
+
+  <h2>🏗 系统架构</h2>
+  <div class="arch">
+    <svg viewBox="0 0 860 380" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/>
+        </marker>
+      </defs>
+      <!-- 用户层 -->
+      <rect x="20" y="20" width="180" height="64" rx="10" fill="#21262d" stroke="#30363d"/>
+      <text x="110" y="46" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="600">用户 / 游客</text>
+      <text x="110" y="66" text-anchor="middle" fill="#8b949e" font-size="11">浏览器 · 无需登录</text>
+
+      <!-- 前端 -->
+      <rect x="250" y="20" width="200" height="64" rx="10" fill="rgba(88,166,255,.10)" stroke="#58a6ff"/>
+      <text x="350" y="46" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="600">Vue3 前端</text>
+      <text x="350" y="66" text-anchor="middle" fill="#8b949e" font-size="11">TypeScript · Vite · Pinia</text>
+
+      <!-- 后端 -->
+      <rect x="500" y="20" width="200" height="64" rx="10" fill="rgba(188,140,255,.10)" stroke="#bc8cff"/>
+      <text x="600" y="46" text-anchor="middle" fill="#bc8cff" font-size="14" font-weight="600">FastAPI 后端</text>
+      <text x="600" y="66" text-anchor="middle" fill="#8b949e" font-size="11">路由 / 业务 / ORM 分层</text>
+
+      <!-- Agent -->
+      <rect x="500" y="150" width="200" height="64" rx="10" fill="rgba(63,185,80,.10)" stroke="#3fb950"/>
+      <text x="600" y="176" text-anchor="middle" fill="#3fb950" font-size="14" font-weight="600">LangChain Agent</text>
+      <text x="600" y="196" text-anchor="middle" fill="#8b949e" font-size="11">通义千问 / DeepSeek</text>
+
+      <!-- Tools -->
+      <rect x="20" y="280" width="170" height="70" rx="10" fill="#21262d" stroke="#30363d"/>
+      <text x="105" y="308" text-anchor="middle" fill="#e6edf3" font-size="13" font-weight="600">订单查询</text>
+      <text x="105" y="328" text-anchor="middle" fill="#8b949e" font-size="11">订单号 + 手机号双要素</text>
+
+      <rect x="220" y="280" width="170" height="70" rx="10" fill="#21262d" stroke="#30363d"/>
+      <text x="305" y="308" text-anchor="middle" fill="#e6edf3" font-size="13" font-weight="600">FAQ 检索 (RAG)</text>
+      <text x="305" y="328" text-anchor="middle" fill="#8b949e" font-size="11">Chroma · 运营沉淀答案</text>
+
+      <rect x="420" y="280" width="170" height="70" rx="10" fill="#21262d" stroke="#30363d"/>
+      <text x="505" y="308" text-anchor="middle" fill="#e6edf3" font-size="13" font-weight="600">转人工提示</text>
+      <text x="505" y="328" text-anchor="middle" fill="#8b949e" font-size="11">兜底策略</text>
+
+      <rect x="620" y="280" width="220" height="70" rx="10" fill="#21262d" stroke="#30363d"/>
+      <text x="730" y="302" text-anchor="middle" fill="#e6edf3" font-size="13" font-weight="600">数据层</text>
+      <text x="730" y="322" text-anchor="middle" fill="#8b949e" font-size="11">PostgreSQL 15 · Redis 7</text>
+      <text x="730" y="338" text-anchor="middle" fill="#8b949e" font-size="11">Alembic 迁移管理</text>
+
+      <!-- 连接线 -->
+      <line x1="200" y1="52" x2="248" y2="52" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="224" y="40" text-anchor="middle" fill="#8b949e" font-size="10">HTTP/WS</text>
+      <line x1="450" y1="52" x2="498" y2="52" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="474" y="40" text-anchor="middle" fill="#8b949e" font-size="10">REST API</text>
+      <line x1="600" y1="84" x2="600" y2="148" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="628" y="120" fill="#8b949e" font-size="10">统一 AI 入口</text>
+      <line x1="560" y1="214" x2="180" y2="278" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="590" y1="214" x2="330" y2="278" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="620" y1="214" x2="515" y2="278" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="680" y1="214" x2="720" y2="278" stroke="#8b949e" stroke-width="1.2" marker-end="url(#arr)"/>
+      <text x="430" y="258" text-anchor="middle" fill="#8b949e" font-size="11">LangChain Tool Calling</text>
+    </svg>
+  </div>
+
+  <h2>✨ 核心功能</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>🤖 LangChain Agent 智能问答</h3>
+      <p>AI 入口统一收敛为 LangChain Agent，订单查询、FAQ 检索、转人工提示均通过 Tool Calling 完成，旧直连 LLM 调用仅保留兼容封装。</p>
+    </div>
+    <div class="card">
+      <h3>📋 订单查询</h3>
+      <p>游客无需登录即可查单，但需「订单号 + 下单手机号」双要素验证——订单号连号可猜，双要素从设计上封死枚举攻击面。</p>
+    </div>
+    <div class="card">
+      <h3>📚 RAG 知识库</h3>
+      <p>LangChain + Chroma 向量检索本地女装 FAQ；高频问题从历史消息聚合，运营沉淀的标准答案优先于基础检索返回。</p>
+    </div>
+    <div class="card">
+      <h3>💬 WebSocket 实时聊天</h3>
+      <p>全双工实时会话；WebSocket 无法带请求头，token 走查询参数并校验会话归属，浏览器 API 限制下的务实鉴权方案。</p>
+    </div>
+    <div class="card">
+      <h3>🛡 运营后台</h3>
+      <p><code style="color:var(--accent)">/api/faq/*</code> 走 X-Admin-Token；未配置时接口 503 停用——能改 Agent 标准答案的入口绝不默认放行。</p>
+    </div>
+    <div class="card">
+      <h3>🐳 工程化交付</h3>
+      <p>Docker Compose 一键起 PG/Redis；数据库 schema 全程 Alembic 迁移管理，测试用例会在忘跑迁移时报错，防止 create_all 覆盖不齐。</p>
+    </div>
+  </div>
+
+  <h2>🔒 安全设计亮点</h2>
+  <div class="sec-list">
+    <div class="sec-item">
+      <div class="sec-icon">🚫</div>
+      <div>
+        <b>404 而非 403 —— 防会话枚举</b>
+        <p>带归属校验的接口，会话不属于当前 token 时返回 <code>404</code> 而不是 <code>403</code>，避免攻击者借此探测哪些会话真实存在。</p>
+      </div>
+    </div>
+    <div class="sec-item">
+      <div class="sec-icon">🔢</div>
+      <div>
+        <b>删除按手机号列订单的接口</b>
+        <p>无登录体系下「按手机号列订单」本身就是枚举器——宁可砍功能也不留攻击面，这是接口设计阶段就做出的取舍。</p>
+      </div>
+    </div>
+    <div class="sec-item">
+      <div class="sec-icon">🔑</div>
+      <div>
+        <b>Admin 接口默认停用</b>
+        <p>运营后台能改写 Agent 的标准答案，属于高权限面：未配置 <code>ADMIN_TOKEN</code> 时返回 503，明确定义「没配置 = 关闭」。</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>🚀 快速开始</h2>
+  <pre><span class="c"># 1. 启动基础设施（PostgreSQL + Redis）</span>
+<span class="k">docker-compose</span> up -d
+
+<span class="c"># 2. 配置环境变量</span>
+<span class="k">cp</span> backend/.env.example backend/.env
+<span class="g"># 编辑 .env 填入 LLM_API_KEY 等配置</span>
+
+<span class="c"># 3. 建表并灌演示数据</span>
+<span class="k">cd</span> backend && pip install -r requirements.txt
+<span class="k">alembic</span> upgrade head
+<span class="k">python</span> -m scripts.seed_demo_data   <span class="g"># 可选</span>
+
+<span class="c"># 4. 启动前后端</span>
+<span class="k">python</span> run.py               <span class="g"># 后端 http://localhost:8000/docs</span>
+<span class="k">cd</span> frontend && npm run dev   <span class="g"># 前端 http://localhost:5173</span></pre>
+
+  <footer>
+    <p>© 2026 谢勤光 Qinguang Xie ·
+      <a href="https://github.com/xie-good/Agent-commerce" target="_blank" rel="noopener">Agent-commerce</a> ·
+      <a href="https://github.com/xie-good" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://lx1120.is-a.dev/" target="_blank" rel="noopener">作品集</a>
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
