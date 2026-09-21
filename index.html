@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>谢勤光 · 项目导航 | Qinguang Xie</title>
+<meta name="description" content="谢勤光（Qinguang Xie）的项目中心——Python 后端 / AI 应用开发 / Agent 开发。作品集、开源项目与技术实验一站式入口。">
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #bc8cff;
+    --green: #3fb950;
+    --tag-bg: #21262d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  header { text-align: center; margin-bottom: 56px; }
+  .avatar {
+    width: 96px; height: 96px; border-radius: 50%;
+    border: 3px solid var(--border);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 32px; font-weight: 700; letter-spacing: 0.5px;
+    background: linear-gradient(120deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .subtitle { color: var(--muted); font-size: 16px; margin-bottom: 16px; }
+  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    background: var(--tag-bg); border: 1px solid var(--border);
+    border-radius: 999px; padding: 4px 14px; font-size: 13px; color: var(--muted);
+  }
+  .badge b { color: var(--text); font-weight: 600; }
+
+  h2 {
+    font-size: 20px; font-weight: 600; margin: 48px 0 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2::before { content: ""; width: 4px; height: 20px; border-radius: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2)); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 22px;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex; flex-direction: column; gap: 12px;
+    text-decoration: none; color: inherit;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.12);
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card h3 { font-size: 17px; font-weight: 600; color: var(--text); }
+  .card .star { color: var(--muted); font-size: 13px; white-space: nowrap; }
+  .card p { color: var(--muted); font-size: 14px; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    background: var(--tag-bg); border: 1px solid var(--border);
+    color: var(--accent); border-radius: 6px; padding: 2px 8px; font-size: 12px;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  }
+  .links { display: flex; gap: 14px; font-size: 13px; border-top: 1px solid var(--border); padding-top: 12px; }
+  .links a { color: var(--accent); text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+  .links .gh { color: var(--muted); }
+
+  .hero-card {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(88,166,255,0.08), rgba(188,140,255,0.08));
+  }
+
+  footer {
+    margin-top: 64px; text-align: center; color: var(--muted); font-size: 13px;
+    border-top: 1px solid var(--border); padding-top: 28px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  @media (max-width: 640px) {
+    h1 { font-size: 26px; }
+    .container { padding: 32px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <img class="avatar" src="https://github.com/xie-good.png" alt="Qinguang Xie">
+    <h1>谢勤光 · Qinguang Xie</h1>
+    <p class="subtitle">Python 后端 / AI 应用开发 / Agent 开发 · 2027 届本科毕业生</p>
+    <div class="badges">
+      <span class="badge">📍 <b>深圳 / 广州</b></span>
+      <span class="badge">🎓 <b>广州南方学院</b></span>
+      <span class="badge">🤖 <b>AI Agent 方向</b></span>
+    </div>
+  </header>
+
+  <h2>🚀 项目导航</h2>
+  <div class="grid">
+
+    <a class="card hero-card" href="https://lx1120.is-a.dev/" target="_blank" rel="noopener">
+      <div class="card-top">
+        <h3>个人作品集 Portfolio</h3>
+        <span class="star">⭐ 主站</span>
+      </div>
+      <p>个人作品集主站：技术栈、项目经历与联系方式。Python / C / SQL · FastAPI / Flask / LLM 应用。</p>
+      <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">GitHub Pages</span></div>
+      <div class="links">
+        <a href="https://lx1120.is-a.dev/" target="_blank" rel="noopener">🌐 lx1120.is-a.dev</a>
+        <a class="gh" href="https://github.com/xie-good/portfolio" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </a>
+
+    <a class="card" href="https://github.com/xie-good/Agent-commerce" target="_blank" rel="noopener">
+      <div class="card-top">
+        <h3>Agent-commerce 电商智能体</h3>
+        <span class="star">🔥</span>
+      </div>
+      <p>基于 DashScope LLM 的电商智能体平台，多 Agent 协作完成商品推荐、下单与客服全流程。</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">DashScope</span><span class="tag">Agent</span></div>
+      <div class="links"><a class="gh" href="https://github.com/xie-good/Agent-commerce" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </a>
+
+    <a class="card" href="https://github.com/xie-good/xianyu-agent" target="_blank" rel="noopener">
+      <div class="card-top">
+        <h3>xianyu-agent 闲鱼智能客服</h3>
+        <span class="star">🤖</span>
+      </div>
+      <p>闲鱼平台 AI 客服机器人，自动回复议价与咨询消息，研究 MessagePack 协议解码优化。</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">MessagePack</span><span class="tag">自动化</span></div>
+      <div class="links"><a class="gh" href="https://github.com/xie-good/xianyu-agent" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </a>
+
+    <a class="card" href="https://github.com/xie-good/hello-agnets" target="_blank" rel="noopener">
+      <div class="card-top">
+        <h3>hello-agnets · Agent 实验场</h3>
+        <span class="star">🧪</span>
+      </div>
+      <p>Agent 范式实验场：ReAct / Reflection / Plan-and-Solve 三大范式实现，含 AgentScope 狼人杀多智能体 Demo。</p>
+      <div class="tags"><span class="tag">AgentScope</span><span class="tag">ReAct</span><span class="tag">Multi-Agent</span></div>
+      <div class="links"><a class="gh" href="https://github.com/xie-good/hello-agnets" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </a>
+
+    <a class="card" href="https://github.com/xie-good/learn-ETC4" target="_blank" rel="noopener">
+      <div class="card-top">
+        <h3>learn-ETC4 · C 语言学习</h3>
+        <span class="star">📖</span>
+      </div>
+      <p>C 语言程序设计学习仓库：基础语法、数据结构练习与经典算法题解。</p>
+      <div class="tags"><span class="tag">C</span><span class="tag">算法</span><span class="tag">数据结构</span></div>
+      <div class="links"><a class="gh" href="https://github.com/xie-good/learn-ETC4" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </a>
+
+  </div>
+
+  <h2>🛠 技术栈</h2>
+  <div class="badges" style="justify-content:flex-start">
+    <span class="badge">🐍 <b>Python</b></span>
+    <span class="badge">⚙️ <b>FastAPI / Flask</b></span>
+    <span class="badge">🗄 <b>MySQL / SQLite</b></span>
+    <span class="badge">🧠 <b>LLM / RAG</b></span>
+    <span class="badge">🕸 <b>LangGraph</b></span>
+    <span class="badge">🤝 <b>AgentScope</b></span>
+    <span class="badge">🧪 <b>pytest 自动化测试</b></span>
+  </div>
+
+  <footer>
+    <p>© 2026 谢勤光 Qinguang Xie ·
+      <a href="https://github.com/xie-good" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://lx1120.is-a.dev/" target="_blank" rel="noopener">作品集</a>
+    </p>
+    <p style="margin-top:6px;opacity:.6">本站由 GitHub Pages 托管 · 域名由 thedev.id 免费提供</p>
+  </footer>
+
+</div>
+</body>
+</html>
